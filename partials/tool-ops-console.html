@@ -1,0 +1,34 @@
+<div class="p-4">
+    <header class="mb-3">
+        <h3 class="text-lg font-semibold text-slate-900">Ops Console</h3>
+        <p class="text-sm text-slate-600">Queues, tasks, and health checks.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <section class="rounded-lg border border-slate-200 bg-white p-3">
+            <h4 class="text-sm font-semibold text-slate-900 mb-2">Queues</h4>
+            <ul class="space-y-1 text-sm">
+                <li class="flex items-center justify-between"><span>Email</span><span class="text-xs text-slate-500">42 pending</span></li>
+                <li class="flex items-center justify-between"><span>Webhooks</span><span class="text-xs text-slate-500">8 pending</span></li>
+                <li class="flex items-center justify-between"><span>Billing</span><span class="text-xs text-slate-500">0 pending</span></li>
+            </ul>
+        </section>
+        <section class="rounded-lg border border-slate-200 bg-white p-3">
+            <h4 class="text-sm font-semibold text-slate-900 mb-2">Tasks</h4>
+            <div class="flex gap-2">
+                <button class="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50">Retry failed</button>
+                <button class="rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700">Run cleanup</button>
+            </div>
+        </section>
+        <section class="rounded-lg border border-slate-200 bg-white p-3">
+            <h4 class="text-sm font-semibold text-slate-900 mb-2">Health</h4>
+            <ul class="space-y-1 text-sm">
+                <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Database</li>
+                <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Queue worker</li>
+                <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-500"></span> Payments API</li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+

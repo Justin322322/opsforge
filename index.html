@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpsForge</title>
+    <meta name="description" content="Internal tools landing page">
+
+    <!-- Tailwind CSS CDN (for rapid styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Ubuntu', 'Cantarell', 'Noto Sans', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Premium font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap" rel="stylesheet">
+
+    <style>
+        @keyframes manga-speed {
+            0% {
+                transform: translateX(100px) scaleX(0.8);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateX(-100px) scaleX(1.2);
+                opacity: 0;
+            }
+        }
+
+        .speed-lines {
+            position: relative;
+            display: inline-block;
+        }
+
+        .speed-lines svg {
+            position: absolute;
+            top: -3px;
+            left: -5px;
+            width: calc(100% + 10px);
+            height: calc(100% + 6px);
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .speed-lines .manga-line {
+            stroke: rgba(15, 23, 42, 0.7);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            fill: none;
+            animation: manga-speed 0.8s ease-out infinite;
+        }
+
+        .speed-lines .manga-line:nth-child(1) { animation-delay: 0s; }
+        .speed-lines .manga-line:nth-child(2) { animation-delay: 0.15s; }
+        .speed-lines .manga-line:nth-child(3) { animation-delay: 0.3s; }
+        .speed-lines .manga-line:nth-child(4) { animation-delay: 0.45s; }
+        .speed-lines .manga-line:nth-child(5) { animation-delay: 0.6s; }
+        .speed-lines .manga-line:nth-child(6) { animation-delay: 0.75s; }
+    </style>
+
+    <!-- htmx (light enhancement for activity load) -->
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb0ls6zq4smxN7qQ1wUj3Psf2f4Qf3aBv/Qo9n0SMa2N9y5y0Jz8mH8C2bW9I3N" crossorigin="anonymous"></script>
+
+    <link rel="icon" href="/assets/logo.svg">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
+    <!-- Top Nav (capsule, sticky) -->
+    <header class="sticky top-0 z-40 bg-transparent">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-2 pb-1">
+            <div class="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full border border-slate-200 bg-white px-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <img src="/assets/logo.svg" alt="Logo" class="h-7 w-7">
+                    <span class="inline-flex items-center gap-2">
+                        <span class="font-semibold tracking-tight text-slate-900">OpsForge</span>
+                        <span class="hidden sm:inline rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs text-slate-700">Ops Suite</span>
+                    </span>
+                </div>
+                <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+                    <a href="#features" class="relative px-3 py-1.5 text-slate-800 hover:text-brand-700 transition-colors duration-200 before:absolute before:bottom-1 before:left-3 before:right-3 before:h-0.5 before:bg-brand-600 before:scale-x-0 before:origin-left hover:before:scale-x-100 before:transition-transform before:duration-200">Features</a>
+                    <a href="#testimonials" class="relative px-3 py-1.5 text-slate-800 hover:text-brand-700 transition-colors duration-200 before:absolute before:bottom-1 before:left-3 before:right-3 before:h-0.5 before:bg-brand-600 before:scale-x-0 before:origin-left hover:before:scale-x-100 before:transition-transform before:duration-200">Testimonials</a>
+                    <a href="#faq" class="relative px-3 py-1.5 text-slate-800 hover:text-brand-700 transition-colors duration-200 before:absolute before:bottom-1 before:left-3 before:right-3 before:h-0.5 before:bg-brand-600 before:scale-x-0 before:origin-left hover:before:scale-x-100 before:transition-transform before:duration-200">FAQ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main>
+        <!-- Hero -->
+        <section class="relative bg-gradient-to-b from-white to-slate-50 -mt-10 md:-mt-16 min-h-screen flex items-center">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 md:pt-44 pb-20 md:pb-28">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] gap-12 items-center">
+                    <div class="space-y-6">
+                        <span class="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">Ops suite for fast-moving teams</span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 leading-tight">Operate <span class="speed-lines"><span class="relative z-10 italic text-slate-900">faster</span>
+                            <svg viewBox="0 0 50 60" xmlns="http://www.w3.org/2000/svg">
+                                <path class="manga-line" d="M2,8 L48,8" />
+                                <path class="manga-line" d="M0,18 L50,18" />
+                                <path class="manga-line" d="M4,28 L46,28" />
+                                <path class="manga-line" d="M1,38 L49,38" />
+                                <path class="manga-line" d="M3,48 L47,48" />
+                                <path class="manga-line" d="M0,58 L50,58" />
+                            </svg>
+                        </span> with <span class="text-brand-600">OpsForge</span></h1>
+                        <p class="text-base md:text-lg text-slate-600 leading-relaxed">Centralize admin, operations, and controls in a single hub. Empower every team to resolve incidents in minutes and launch features with confidence.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="#features" class="inline-flex items-center justify-center rounded-full bg-brand-600 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-brand-700">Request Access</a>
+                            <a href="#pricing" class="inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">View Pricing</a>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-slate-600">
+                            <div class="inline-flex items-center gap-2">
+                                <span class="h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs">✓</span>
+                                Role-aware dashboards
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <span class="h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs">✓</span>
+                                Compliance-ready audit trails
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <span class="h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs">✓</span>
+                                Instant feature rollbacks
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <span class="h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs">✓</span>
+                                Alerts and on-call workflows
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="relative bg-white border border-slate-300 shadow-sm rounded-lg overflow-hidden">
+                            <div class="border-b border-brand-400 px-6 py-4 bg-brand-600">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm font-normal text-white/90 mb-1">Today</p>
+                                        <h3 class="text-lg font-bold text-white">Ops overview</h3>
+                                    </div>
+                                    <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm bg-white text-slate-700 font-medium border border-white/20">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                        All systems operational
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="px-6 py-6">
+                                <div class="space-y-6">
+                                    <div class="pb-6 border-b border-slate-200">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-slate-900 mb-1">Feature rollout</h4>
+                                                <p class="text-sm text-slate-600">checkout_v2 • 85% exposure</p>
+                                            </div>
+                                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-green-50 text-green-800 border border-green-600 ml-4">
+                                                Stable
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="pb-6 border-b border-slate-200">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-slate-900 mb-1">Audit exports</h4>
+                                                <p class="text-sm text-slate-600">7 completed in the last hour</p>
+                                            </div>
+                                            <a href="#" class="inline-flex items-center px-3 py-1.5 border border-slate-300 rounded-full text-sm bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors ml-4">
+                                                Download
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="pb-6 border-b border-slate-200">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h4 class="font-semibold text-slate-900 mb-1">Queue health</h4>
+                                                <p class="text-sm text-slate-600">Email • 12 pending • auto retry</p>
+                                            </div>
+                                            <button class="inline-flex items-center px-3 py-1.5 bg-blue-600 border border-transparent rounded-full text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors ml-4">
+                                                Resolve
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-slate-700">Next maintenance window</span>
+                                            <span class="font-medium text-slate-900">Nov 12 • 02:00 UTC</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="relative grid min-h-screen mt-16 pt-16 grid-cols-[1fr_2.5rem_auto_2.5rem_1fr] grid-rows-[1px_1fr_1px_auto_1px_1fr] [--pattern-fg:rgba(59,130,246,0.7)] scroll-mt-24">
+            <div class="relative -right-px col-start-2 row-span-full row-start-1 border-x border-blue-500 bg-[image:repeating-linear-gradient(315deg,_var(--pattern-fg)_0,_var(--pattern-fg)_1px,_transparent_0,_transparent_50%)] bg-[size:10px_10px] bg-fixed"></div>
+            <div class="relative -left-px col-start-4 row-span-full row-start-1 border-x border-blue-500 bg-[image:repeating-linear-gradient(315deg,_var(--pattern-fg)_0,_var(--pattern-fg)_1px,_transparent_0,_transparent_50%)] bg-[size:10px_10px] bg-fixed"></div>
+            <div class="col-start-3 row-start-4 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl mx-auto lg:mx-0">
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">Everything you need to run operations</h2>
+                    <p class="mt-3 text-base text-slate-600 leading-relaxed">Purpose-built features to accelerate support, reduce risk, and ship with confidence.</p>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">Fast by default</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Snappy UI with instant feedback and sensible defaults for every workflow.</p>
+                    </article>
+
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">User administration</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Invite users, manage roles and access, and enforce policies with audit trails.</p>
+                    </article>
+
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">Feature flags</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Gradually roll out features by cohort and environment with instant rollbacks.</p>
+                    </article>
+
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">Ops console</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">View queues, retry failures, and trigger maintenance tasks safely.</p>
+                    </article>
+
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">Audit logs</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Search and export tamper-evident logs for compliance and incident response.</p>
+                    </article>
+
+                    <article class="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200">
+                        <h3 class="font-semibold text-slate-900 text-lg mb-3">Access controls</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Fine-grained permissions with least-privilege defaults and break-glass access.</p>
+                    </article>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="mt-12">
+                    <h3 class="text-lg font-semibold text-slate-900 mb-6 text-center">Proven results</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <article class="group rounded-xl border border-slate-200 bg-slate-50 p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 text-center">
+                            <div class="text-3xl font-bold text-slate-900 mb-2">99.99%</div>
+                            <div class="text-sm text-slate-600">uptime across OpsForge services</div>
+                        </article>
+
+                        <article class="group rounded-xl border border-slate-200 bg-slate-50 p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 text-center">
+                            <div class="text-3xl font-bold text-slate-900 mb-2">-42%</div>
+                            <div class="text-sm text-slate-600">mean time to resolve incidents</div>
+                        </article>
+
+                        <article class="group rounded-xl border border-slate-200 bg-slate-50 p-6 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200 text-center">
+                            <div class="text-3xl font-bold text-slate-900 mb-2">3x</div>
+                            <div class="text-sm text-slate-600">faster admin workflows</div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="min-h-screen flex flex-col justify-center relative overflow-hidden scroll-mt-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
+                <div class="max-w-2xl mx-auto lg:mx-0">
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">Teams ship with confidence</h2>
+                    <p class="mt-3 text-base text-slate-600 leading-relaxed">OpsForge powers internal operations across support, engineering, and compliance.</p>
+                </div>
+
+                <!-- Marquee Testimonials -->
+                <div class="mt-12 relative">
+                    <!-- Left fade -->
+                    <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
+
+                    <!-- Right fade -->
+                    <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
+
+                    <!-- Marquee container -->
+                    <div class="overflow-hidden">
+                        <div class="flex animate-marquee space-x-8">
+                            <!-- First set of testimonials -->
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"We trimmed incident resolution time by almost half. The feature flags alone paid for the rollout."</p>
+                                <footer class="text-sm text-slate-600 font-medium">Head of Engineering, TechCorp</footer>
+                            </blockquote>
+
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"Audit exports that used to take hours now take minutes. Our auditors are finally happy."</p>
+                                <footer class="text-sm text-slate-600 font-medium">Compliance Lead, DataFlow Inc</footer>
+                            </blockquote>
+
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"Finally, a single place for ops. The team actually enjoys using it instead of fighting multiple tools."</p>
+                                <footer class="text-sm text-slate-600 font-medium">Support Manager, CloudScale</footer>
+                            </blockquote>
+
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"The instant rollbacks saved us from a major outage. OpsForge is now our safety net."</p>
+                                <footer class="text-sm text-slate-600 font-medium">DevOps Engineer, StartupXYZ</footer>
+                            </blockquote>
+
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"User management is finally intuitive. Our new hires can onboard themselves without IT help."</p>
+                                <footer class="text-sm text-slate-600 font-medium">IT Director, Enterprise Solutions</footer>
+                            </blockquote>
+
+                            <!-- Duplicate for seamless loop -->
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"We trimmed incident resolution time by almost half. The feature flags alone paid for the rollout."</p>
+                                <footer class="text-sm text-slate-600 font-medium">Head of Engineering, TechCorp</footer>
+                            </blockquote>
+
+                            <blockquote class="flex-shrink-0 w-96 rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+                                <p class="text-base text-slate-800 leading-relaxed mb-4 italic">"Audit exports that used to take hours now take minutes. Our auditors are finally happy."</p>
+                                <footer class="text-sm text-slate-600 font-medium">Compliance Lead, DataFlow Inc</footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-marquee {
+                    animation: marquee 40s linear infinite;
+                }
+                .animate-marquee:hover {
+                    animation-play-state: paused;
+                }
+            </style>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="bg-slate-50 border-t border-b border-slate-200 scroll-mt-32">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+                <div class="max-w-2xl mx-auto">
+                        <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">Frequently asked questions</h2>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">Answers to common questions about rollout and access.</p>
+                        <div class="mt-8 space-y-4 max-w-3xl">
+                    <details class="group rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer text-base font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                            <span>How do I get access?</span>
+                            <svg class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="px-6 pb-6">
+                            <p class="text-slate-600 leading-relaxed">Ask your team admin to grant you a role. Least-privilege defaults are enforced to ensure security while maintaining operational efficiency.</p>
+                        </div>
+                    </details>
+
+                    <details class="group rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer text-base font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                            <span>Can I roll back a feature?</span>
+                            <svg class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="px-6 pb-6">
+                            <p class="text-slate-600 leading-relaxed">Yes, feature rollbacks are instant and safe. Simply disable the flag or set exposure to 0%—changes apply immediately without any downtime.</p>
+                        </div>
+                    </details>
+
+                    <details class="group rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer text-base font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                            <span>Do you support audit exports?</span>
+                            <svg class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="px-6 pb-6">
+                            <p class="text-slate-600 leading-relaxed">Absolutely. CSV exports are available with comprehensive filters for user activity, event types, and custom time ranges to meet all compliance requirements.</p>
+                        </div>
+                    </details>
+
+                    <details class="group rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer text-base font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                            <span>How does the approval workflow work?</span>
+                            <svg class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="px-6 pb-6">
+                            <p class="text-slate-600 leading-relaxed">Changes require approval from authorized team members. You'll receive notifications for pending reviews and can track the status of all your requests in real-time.</p>
+                        </div>
+                    </details>
+
+                    <details class="group rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition-all duration-200">
+                        <summary class="flex items-center justify-between p-6 cursor-pointer text-base font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                            <span>Is there a free trial available?</span>
+                            <svg class="w-5 h-5 text-slate-500 group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="px-6 pb-6">
+                            <p class="text-slate-600 leading-relaxed">Yes! We offer a 14-day free trial with full access to all features. No credit card required, and you can upgrade at any time during or after the trial period.</p>
+                        </div>
+                    </details>
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing" class="min-h-screen flex items-center justify-center scroll-mt-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 leading-tight">Simple, transparent pricing</h2>
+                    <p class="mt-3 text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">Choose the plan that fits your team's needs. All plans include core features with usage-based billing.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Starter Plan -->
+                    <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm hover:shadow-lg transition-all duration-200">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold text-slate-900">Starter</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-bold text-slate-900">$29</span>
+                                <span class="text-slate-600">/month</span>
+                            </div>
+                            <p class="mt-2 text-sm text-slate-600">Perfect for small teams getting started</p>
+                        </div>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Up to 25 team members</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Feature flags & rollbacks</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Basic audit logs</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Email support</span>
+                            </li>
+                        </ul>
+                        <button class="mt-8 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                            Start free trial
+                        </button>
+                    </div>
+
+                    <!-- Professional Plan -->
+                    <div class="rounded-2xl border-2 border-brand-500 bg-white p-8 shadow-lg relative">
+                        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                            <span class="bg-brand-500 text-white px-4 py-1 rounded-full text-xs font-medium">Most Popular</span>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold text-slate-900">Professional</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-bold text-slate-900">$99</span>
+                                <span class="text-slate-600">/month</span>
+                            </div>
+                            <p class="mt-2 text-sm text-slate-600">Best for growing teams with advanced needs</p>
+                        </div>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Up to 100 team members</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Advanced feature management</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Comprehensive audit trails</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Priority support & training</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Advanced integrations</span>
+                            </li>
+                        </ul>
+                        <button class="mt-8 w-full rounded-lg bg-brand-600 px-4 py-3 text-sm font-medium text-white hover:bg-brand-700 transition-colors">
+                            Start free trial
+                        </button>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm hover:shadow-lg transition-all duration-200">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold text-slate-900">Enterprise</h3>
+                            <div class="mt-4">
+                                <span class="text-4xl font-bold text-slate-900">Custom</span>
+                            </div>
+                            <p class="mt-2 text-sm text-slate-600">Tailored solutions for large organizations</p>
+                        </div>
+                        <ul class="mt-8 space-y-4">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Unlimited team members</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Full feature suite</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Custom integrations</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span class="text-sm text-slate-600">Dedicated success manager</span>
+                            </li>
+                        </ul>
+                        <button class="mt-8 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                            Contact sales
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <p class="text-sm text-slate-600">All plans include 14-day free trial. No credit card required.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Banner -->
+        <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+            <div class="cta-card rounded-2xl border border-slate-200 bg-gradient-to-r from-brand-600 to-brand-700 p-6 text-white">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">Ready to streamline operations?</h3>
+                        <p class="mt-3 text-base text-white/90 leading-relaxed">Spin up OpsForge and give your team a faster path to resolution.</p>
+                    </div>
+                        <div class="flex gap-3">
+                            <a href="#features" class="rounded-full bg-white text-brand-700 px-4 py-2 text-sm font-medium hover:bg-slate-100 transition-colors">Get Started</a>
+                            <button type="button" class="js-cta-learn rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white hover:bg-white/20 transition-colors" aria-expanded="false" aria-controls="ctaDetails">Learn More</button>
+                        </div>
+                </div>
+
+                <div id="ctaDetails" class="hidden mt-6 border-t border-white/20 pt-6">
+                    <div class="divide-y divide-white/20 text-sm text-white/85">
+                        <div class="py-4">
+                            <h4 class="text-base font-semibold text-white">Fast by default</h4>
+                            <p class="mt-1">Sub-100ms responses keep every incident and rollout action snappy for operators, even during peak load. Our edge caching and streaming updates mean you never wait on dashboards to refresh.</p>
+                        </div>
+                        <div class="py-4">
+                            <h4 class="text-base font-semibold text-white">Enterprise control</h4>
+                            <p class="mt-1">Every change is wrapped in least-privilege access, approval workflows, and signed audit trails. Compliance teams get exports on demand without engineering intervention.</p>
+                        </div>
+                        <div class="py-4">
+                            <h4 class="text-base font-semibold text-white">Operational insight</h4>
+                            <p class="mt-1">Unified dashboards stitch data across teams, services, and regions in real time. Drill from exec-level summaries to raw event detail in two clicks.</p>
+                        </div>
+                        <div class="py-4">
+                            <h4 class="text-base font-semibold text-white">Automation-first</h4>
+                            <p class="mt-1">Runbooks, incident routing, and remediation hooks trigger automatically while keeping humans in control of final actions. Integrations with Slack, PagerDuty, and your CI keep everyone aligned.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-white/80">
+                        <div>
+                            Want to see it in action? We’ll tailor a walkthrough for your environment and team size.
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#pricing" class="inline-flex items-center rounded-lg bg-white px-4 py-2 font-medium text-brand-700 hover:bg-slate-100 transition-colors">Compare Plans</a>
+                            <a href="#faq" class="inline-flex items-center rounded-lg bg-white/15 px-4 py-2 font-medium text-white hover:bg-white/25 transition-colors">Browse FAQ</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 bg-white">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+                <div class="text-center text-xs text-slate-500">© OpsForge. All rights reserved.</div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.documentElement.style.scrollBehavior = 'smooth';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctaDetails = document.getElementById('ctaDetails');
+            const learnMoreButtons = document.querySelectorAll('.js-cta-learn');
+
+            if (!ctaDetails || learnMoreButtons.length === 0) {
+                return;
+            }
+
+            function updateButtons(isOpen) {
+                learnMoreButtons.forEach((btn) => {
+                    btn.textContent = isOpen ? 'Show Less' : 'Learn More';
+                    btn.setAttribute('aria-expanded', String(isOpen));
+                });
+            }
+
+            function showDetails() {
+                ctaDetails.classList.remove('hidden');
+                ctaDetails.classList.add('animate-fade-in');
+                updateButtons(true);
+            setTimeout(() => {
+                const topOffset = 96;
+                const elementPosition = ctaDetails.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: elementPosition - topOffset, behavior: 'smooth' });
+            }, 100);
+            }
+
+            function hideDetails() {
+                ctaDetails.classList.add('hidden');
+                ctaDetails.classList.remove('animate-fade-in');
+                updateButtons(false);
+            }
+
+            learnMoreButtons.forEach((btn) => {
+                btn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const shouldOpen = ctaDetails.classList.contains('hidden');
+
+                    if (shouldOpen) {
+                        showDetails();
+                    } else {
+                        hideDetails();
+                    }
+                });
+            });
+        });
+
+        // Add fade-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-fade-in {
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+
+

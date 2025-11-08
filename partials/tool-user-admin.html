@@ -1,0 +1,45 @@
+<div class="p-4">
+    <header class="mb-3">
+        <h3 class="text-lg font-semibold text-slate-900">User Admin</h3>
+        <p class="text-sm text-slate-600">Create users, assign roles, and manage access.</p>
+    </header>
+
+    <form class="rounded-lg border border-slate-200 p-3 bg-slate-50 mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <input class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm" placeholder="Email"/>
+        <select class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>User</option>
+            <option>Admin</option>
+            <option>Support</option>
+        </select>
+        <button type="button" class="rounded-md bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700">Invite</button>
+    </form>
+
+    <div class="overflow-auto rounded-lg border border-slate-200">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+            <thead class="bg-slate-50">
+                <tr>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">User</th>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">Role</th>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">Status</th>
+                    <th class="px-3 py-2"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+                <tr>
+                    <td class="px-3 py-2">a.smith@example.com</td>
+                    <td class="px-3 py-2">Admin</td>
+                    <td class="px-3 py-2"><span class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">Active</span></td>
+                    <td class="px-3 py-2 text-right"><button class="text-brand-700 hover:text-brand-800">Revoke</button></td>
+                </tr>
+                <tr>
+                    <td class="px-3 py-2">j.doe@example.com</td>
+                    <td class="px-3 py-2">User</td>
+                    <td class="px-3 py-2"><span class="rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700">Pending</span></td>
+                    <td class="px-3 py-2 text-right"><button class="text-brand-700 hover:text-brand-800">Resend</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
