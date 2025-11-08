@@ -1,0 +1,61 @@
+<div class="p-4">
+    <header class="mb-3">
+        <h3 class="text-lg font-semibold text-slate-900">User Admin</h3>
+        <p class="text-sm text-slate-600">Create users, assign roles, and manage access.</p>
+    </header>
+
+    <form class="rounded-lg border border-slate-200 p-3 bg-slate-50 mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2" 
+          hx-post="{% url 'opsforge_app:invite_user' %}" 
+          hx-target="#user-admin-content" 
+          hx-swap="outerHTML">
+        {% csrf_token %}
+        <input name="email" class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm" placeholder="Email"/>
+        <select name="role" class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="support">Support</option>
+        </select>
+        <button type="submit" class="rounded-md bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700">Invite</button>
+    </form>
+
+    <div id="user-admin-content" class="overflow-auto rounded-lg border border-slate-200">
+        <table class="min-w-full divide-y divide-slate-200 text-sm">
+            <thead class="bg-slate-50">
+                <tr>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">User</th>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">Role</th>
+                    <th class="px-3 py-2 text-left font-medium text-slate-700">Status</th>
+                    <th class="px-3 py-2"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+                {% for profile in profiles %}
+                <tr>
+                    <td class="px-3 py-2">{{ profile.user.email }}</td>
+                    <td class="px-3 py-2">{{ profile.get_role_display }}</td>
+                    <td class="px-3 py-2">
+                        {% if profile.status == 'active' %}
+                            <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs text-emerald-700">Active</span>
+                        {% elif profile.status == 'pending' %}
+                            <span class="rounded-full bg-amber-50 px-2 py-0.5 text-xs text-amber-700">Pending</span>
+                        {% else %}
+                            <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-3 py-2 text-right">
+                        {% if profile.status == 'pending' %}
+                            <button class="text-brand-700 hover:text-brand-800">Resend</button>
+                        {% else %}
+                            <button class="text-brand-700 hover:text-brand-800">Revoke</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-3 py-4 text-center text-slate-500">No users found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

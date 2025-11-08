@@ -1,0 +1,27 @@
+<section class="mb-4">
+    <h1 class="text-xl font-semibold text-slate-900">Recent Activity</h1>
+    <p class="text-sm text-slate-600">Latest administrative actions across tools.</p>
+</section>
+
+<ol class="space-y-3">
+    {% for activity in activities %}
+    <li class="rounded-lg border border-slate-200 bg-white p-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm text-slate-800">
+                    <strong>{% if activity.user %}{{ activity.user.username }}{% else %}system{% endif %}</strong> {{ activity.action }}
+                </p>
+                <p class="text-xs text-slate-500">{{ activity.tool }} • {{ activity.created_at|timesince }} ago</p>
+            </div>
+            <button class="text-xs text-brand-700 hover:text-brand-800" 
+                    hx-get="{% url 'opsforge_app:tool_user_admin' %}" 
+                    hx-target="#tool-dialog-content" 
+                    hx-swap="innerHTML">View</button>
+        </div>
+    </li>
+    {% empty %}
+    <li class="rounded-lg border border-slate-200 bg-white p-4 text-center text-slate-500 text-sm">
+        No recent activity
+    </li>
+    {% endfor %}
+</ol>

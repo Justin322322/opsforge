@@ -15,25 +15,28 @@
     </form>
 
     <ul class="space-y-2">
+        {% for log in logs %}
         <li class="rounded-lg border border-slate-200 bg-white p-3 text-sm">
             <div class="flex items-center justify-between">
-                <div><strong>a.smith</strong> updated role for <strong>t.khan</strong> → Support</div>
-                <div class="text-xs text-slate-500">2025-11-07 10:11</div>
+                <div>
+                    <strong>{% if log.user %}{{ log.user.username }}{% else %}system{% endif %}</strong> {{ log.action }}
+                    {% if log.details %}
+                        <span class="text-slate-600">- {{ log.details }}</span>
+                    {% endif %}
+                </div>
+                <div class="text-xs text-slate-500">{{ log.created_at|date:"Y-m-d H:i" }}</div>
             </div>
         </li>
-        <li class="rounded-lg border border-slate-200 bg-white p-3 text-sm">
-            <div class="flex items-center justify-between">
-                <div><strong>system</strong> rotated API keys</div>
-                <div class="text-xs text-slate-500">2025-11-07 09:20</div>
-            </div>
+        {% empty %}
+        <li class="rounded-lg border border-slate-200 bg-white p-3 text-sm text-center text-slate-500">
+            No audit logs found
         </li>
-        <li class="rounded-lg border border-slate-200 bg-white p-3 text-sm">
-            <div class="flex items-center justify-between">
-                <div><strong>j.doe</strong> signed in from new device</div>
-                <div class="text-xs text-slate-500">2025-11-06 18:02</div>
-            </div>
-        </li>
+        {% endfor %}
     </ul>
+    
+    {% if total_count %}
+    <div class="mt-4 text-xs text-slate-500 text-center">
+        Showing {{ logs|length }} of {{ total_count }} logs
+    </div>
+    {% endif %}
 </div>
-
-

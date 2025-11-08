@@ -7,14 +7,25 @@
         <span class="text-xs text-slate-500">Hint: Click a card to view details</span>
     </div>
     <div class="sm:hidden text-xs text-slate-500">Tap a card to view</div>
-    
 </section>
 
 <div class="mb-4 flex flex-wrap items-center gap-2">
-    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" hx-get="partials/tools.html" hx-target="#main" hx-swap="innerHTML">All</button>
-    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" hx-get="partials/tools.html?tag=users" hx-target="#main" hx-swap="innerHTML">Users</button>
-    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" hx-get="partials/tools.html?tag=ops" hx-target="#main" hx-swap="innerHTML">Ops</button>
-    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" hx-get="partials/tools.html?tag=controls" hx-target="#main" hx-swap="innerHTML">Controls</button>
+    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" 
+            hx-get="{% url 'opsforge_app:tools' %}" 
+            hx-target="#main" 
+            hx-swap="innerHTML">All</button>
+    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" 
+            hx-get="{% url 'opsforge_app:tools' %}?tag=users" 
+            hx-target="#main" 
+            hx-swap="innerHTML">Users</button>
+    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" 
+            hx-get="{% url 'opsforge_app:tools' %}?tag=ops" 
+            hx-target="#main" 
+            hx-swap="innerHTML">Ops</button>
+    <button class="rounded-full border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50" 
+            hx-get="{% url 'opsforge_app:tools' %}?tag=controls" 
+            hx-target="#main" 
+            hx-swap="innerHTML">Controls</button>
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -27,7 +38,9 @@
         <div class="flex items-center justify-between">
             <div class="text-xs text-slate-500">users, access</div>
             <button class="text-brand-700 hover:text-brand-800 text-sm"
-                hx-get="partials/tool-user-admin.html" hx-target="#tool-dialog-content" hx-swap="innerHTML">Open</button>
+                hx-get="{% url 'opsforge_app:tool_user_admin' %}" 
+                hx-target="#tool-dialog-content" 
+                hx-swap="innerHTML">Open</button>
         </div>
     </article>
 
@@ -40,7 +53,9 @@
         <div class="flex items-center justify-between">
             <div class="text-xs text-slate-500">compliance</div>
             <button class="text-brand-700 hover:text-brand-800 text-sm"
-                hx-get="partials/tool-audit-log.html" hx-target="#tool-dialog-content" hx-swap="innerHTML">Open</button>
+                hx-get="{% url 'opsforge_app:tool_audit_log' %}" 
+                hx-target="#tool-dialog-content" 
+                hx-swap="innerHTML">Open</button>
         </div>
     </article>
 
@@ -53,7 +68,9 @@
         <div class="flex items-center justify-between">
             <div class="text-xs text-slate-500">controls</div>
             <button class="text-brand-700 hover:text-brand-800 text-sm"
-                hx-get="partials/tool-feature-flags.html" hx-target="#tool-dialog-content" hx-swap="innerHTML">Open</button>
+                hx-get="{% url 'opsforge_app:tool_feature_flags' %}" 
+                hx-target="#tool-dialog-content" 
+                hx-swap="innerHTML">Open</button>
         </div>
     </article>
 
@@ -66,9 +83,9 @@
         <div class="flex items-center justify-between">
             <div class="text-xs text-slate-500">ops</div>
             <button class="text-brand-700 hover:text-brand-800 text-sm"
-                hx-get="partials/tool-ops-console.html" hx-target="#tool-dialog-content" hx-swap="innerHTML">Open</button>
+                hx-get="{% url 'opsforge_app:tool_ops_console' %}" 
+                hx-target="#tool-dialog-content" 
+                hx-swap="innerHTML">Open</button>
         </div>
     </article>
 </div>
-
-

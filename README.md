@@ -1,6 +1,22 @@
 # OpsForge
 
-A modern, static landing page for internal operations tools built with HTML, Tailwind CSS, and HTMX for progressive enhancement.
+A modern internal operations tools platform built with HTML, Tailwind CSS, HTMX, and Django backend for progressive enhancement.
+
+## Architecture
+
+This project has two deployment options:
+
+1. **Django Backend** (Recommended) - Full functionality with database
+   - Location: `backend/` directory
+   - Features: Dynamic data, HTMX partials, admin panel
+   - See `backend/README.md` for setup
+
+2. **Static Frontend** (Demo) - Landing page only
+   - Location: Root `index.html`
+   - Features: Marketing/landing page
+   - Note: HTMX partials require Django backend
+
+**Important**: All HTML templates are in `backend/templates/` (single source of truth). The root `index.html` is for static demo purposes only.
 
 ## Features
 
@@ -150,8 +166,8 @@ The project is already configured for GitHub Pages:
 
 ### Updating Content
 
-- **Main Page**: Edit `index.html`
-- **Tool Views**: Edit files in `partials/` directory
+- **Main Page**: Edit `backend/templates/index.html` (Django) or root `index.html` (static)
+- **Tool Views**: Edit files in `backend/templates/partials/` directory
 - **Styling**: Modify Tailwind classes or add custom CSS in `<style>` tags
 - **Assets**: Replace files in `assets/` directory
 
@@ -178,17 +194,19 @@ tailwind.config = {
 
 ### Adding New HTMX Features
 
-1. Create a new HTML partial in `partials/`
-2. Add HTMX attributes to trigger buttons/links:
+1. Create a new HTML partial in `backend/templates/partials/`
+2. Add a view in `backend/opsforge_app/views.py` to serve the partial
+3. Add URL routing in `backend/opsforge_app/urls.py`
+4. Add HTMX attributes to trigger buttons/links:
    ```html
    <button 
-       hx-get="partials/your-partial.html" 
+       hx-get="{% url 'opsforge_app:your_view' %}" 
        hx-target="#target-element" 
        hx-swap="innerHTML">
        Load Content
    </button>
    ```
-3. Ensure the target element exists in your HTML
+5. Ensure the target element exists in your HTML
 
 ## Browser Support
 

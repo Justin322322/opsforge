@@ -1,0 +1,32 @@
+<div class="p-4">
+    <header class="mb-3">
+        <h3 class="text-lg font-semibold text-slate-900">Feature Flags</h3>
+        <p class="text-sm text-slate-600">Safely roll out features by cohort and environment.</p>
+    </header>
+
+    <div class="rounded-lg border border-slate-200 bg-white divide-y">
+        {% for flag in flags %}
+        <div class="p-3 flex items-center justify-between">
+            <div>
+                <div class="font-medium text-slate-900">{{ flag.name }}</div>
+                <div class="text-xs text-slate-600">
+                    {{ flag.get_environment_display }} • {{ flag.exposure_percentage }}% users • 
+                    {% if flag.enabled %}Enabled{% else %}Disabled{% endif %}
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="rounded-md border border-slate-300 px-3 py-1.5 text-sm hover:bg-slate-50">Edit</button>
+                {% if flag.enabled %}
+                    <button class="rounded-md bg-brand-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-700">Disable</button>
+                {% else %}
+                    <button class="rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700">Enable</button>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="p-3 text-center text-slate-500 text-sm">
+            No feature flags found
+        </div>
+        {% endfor %}
+    </div>
+</div>
