@@ -18,24 +18,6 @@ A modern, static landing page for internal operations tools built with HTML, Tai
 - **Inter Font**: Premium typography from Google Fonts
 - **Vanilla JavaScript**: Minimal JavaScript for enhanced interactivity
 
-## Project Structure
-
-```
-opsforge/
-├── index.html          # Main landing page
-├── assets/
-│   └── logo.svg       # Logo asset
-├── partials/          # HTMX partial views
-│   ├── activity.html
-│   ├── help.html
-│   ├── tool-audit-log.html
-│   ├── tool-feature-flags.html
-│   ├── tool-ops-console.html
-│   ├── tool-user-admin.html
-│   └── tools.html
-└── README.md
-```
-
 ## HTMX Integration
 
 This project uses **HTMX** for progressive enhancement, allowing dynamic content loading without JavaScript frameworks. Here's how it works:
